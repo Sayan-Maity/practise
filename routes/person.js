@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Person = require('../models/person');
 
-// Get all persons :
+// GET all :
 router.get('/', async (req, res) => {
   try {
     const persons = await Person.find();
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get a person :
+// GET single :
 router.get('/:id', async (req, res) => {
   try {
     const persons = await Person.findById(req.params.id);
@@ -22,7 +22,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Post persons in DB (General Format):
+// POST (General Format):
 // router.post('/', async (req, res) => {
     //   const person = await Person({
         //     firstName: req.body.firstName,
@@ -47,7 +47,7 @@ router.get('/:id', async (req, res) => {
     // });
     
 
-// Post persons in DB (Good Format):
+// POST (Good Format):
 router.post('/', async (req, res) => {
   const {
     name: {
@@ -87,7 +87,7 @@ router.post('/', async (req, res) => {
 });
 
 
-// Update person in DB :
+// UPDATE :
 router.patch('/:id', async (req, res) => {
   try {
     const updatedPerson = await Person.findByIdAndUpdate(
@@ -102,7 +102,7 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
-// Delete person in DB :
+// DELETE :
 router.delete('/:id', async (req, res) => {
   try {
     const deletePerson = await Person.findByIdAndRemove({ _id: req.params.id });
