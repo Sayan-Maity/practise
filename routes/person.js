@@ -6,10 +6,9 @@ const Person = require('../models/person');
 router.get('/', async (req, res) => {
   try {
     const persons = await Person.find();
-    console.log(persons);
-    res.json(persons);
+    res.status(201).json(persons);
   } catch (err) {
-    res.send('Error', err);
+    res.status(400).send('Error');
   }
 });
 
@@ -17,13 +16,13 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const persons = await Person.findById(req.params.id);
-    res.json(persons);
+    res.status(201).json(persons);
   } catch (err) {
-    res.send('Error', err);
+    res.status(400).send('Error', err);
   }
 });
 
-// Post/ Saving persons in DB (General Format):
+// Post persons in DB (General Format):
 // router.post('/', async (req, res) => {
     //   const person = await Person({
         //     firstName: req.body.firstName,
@@ -48,11 +47,14 @@ router.get('/:id', async (req, res) => {
     // });
     
 
-// Post/ Saving persons in DB (Good Format):
+// Post persons in DB (Good Format):
 router.post('/', async (req, res) => {
   const {
-    firstName,
-    lastName,
+    name: {
+      firstName,
+      middleName,
+      lastName,
+    },
     contact,
     email,
     location: {
@@ -64,8 +66,11 @@ router.post('/', async (req, res) => {
 
   try {
     const addPerson = await Person({
-      firstName,
-      lastName,
+      name: {
+        firstName,
+        middleName,
+        lastName,
+      },
       contact,
       email,
       location: {
@@ -75,9 +80,9 @@ router.post('/', async (req, res) => {
       },
     }).save();
 
-    res.json(addPerson);
+    res.status(201).json(addPerson);
   } catch (err) {
-    res.send('Error', err);
+    res.status(500).send('Error', err);
   }
 });
 

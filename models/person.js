@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const geolocationSchema = new mongoose.Schema({
   latitude: {
     type: String,
@@ -26,36 +27,48 @@ const locationSchema = new mongoose.Schema({
   },
 });
 
+const nameSchema = new mongoose.Schema({
+  firstName : {
+    type: String,
+    required: true,
+    minLength: 3, // min 3 length name should be given
+  },
+  middleName : {
+    type: String,
+  },
+  lastName : {
+    type: String,
+    required: true,
+  },
+})
+
 const personSchema = new mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      required: true,
-      default: 'unknown',
-    },
-    lastName: {
-      type: String,
-      required: true,
-      default: 'unknown',
+    name: {
+      type: nameSchema,
     },
     contact: {
       type: String,
       required: true,
-    //   match: /^[0-9]{10}$/,
-    //   message: 'Please enter a valid 10-digit phone number',
+      // minLength: 10,
+      // maxLength: 10,
+      unique: true,
+      match: /^[0-9]{10}$/,
+      message: 'Please enter a valid 10-digit phone number',
     },
     email: {
       type: String,
       required: true,
-    //   match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-    //   message: 'Please enter a valid email address',
+      unique: [true, "Email id already present"],
+      match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      message: 'Please enter a valid email address',
     },
     location: {
       type: locationSchema,
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true } // saves the created and updated time when any new post is done
 );
 
 module.exports = mongoose.model('Person', personSchema);
