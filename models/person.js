@@ -63,12 +63,16 @@ const personSchema = new mongoose.Schema(
       match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
       message: 'Please enter a valid email address',
     },
+    ranking: {
+      type: String,
+      required: true,
+    },
     location: {
       type: locationSchema,
       required: true,
     },
   },
-  { timestamps: true } // saves the created and updated time when any new post is done
+  { timestamps: true } // saves the createdAt and updatedAt time when any new post is done
 );
 
 module.exports = mongoose.model('Person', personSchema);

@@ -5,7 +5,7 @@ const Person = require('../models/person');
 // GET all :
 router.get('/', async (req, res) => {
   try {
-    const persons = await Person.find();
+    const persons = await Person.find().sort({"ranking" : 1}); // to sort in ascending order
     res.status(201).json(persons);
   } catch (err) {
     res.status(400).send('Error');
@@ -57,6 +57,7 @@ router.post('/', async (req, res) => {
     },
     contact,
     email,
+    ranking,
     location: {
       city,
       country,
@@ -73,6 +74,7 @@ router.post('/', async (req, res) => {
       },
       contact,
       email,
+      ranking,
       location: {
         city,
         country,
